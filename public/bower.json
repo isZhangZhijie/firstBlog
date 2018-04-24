@@ -1,0 +1,23 @@
+{
+  "name": "public",
+  "authors": [
+    "Jacky-Zhang-2 <Jack-Zhang@github.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "holderjs": "^2.9.4",
+    "jquery": "^3.3.1",
+    "bootstrap": "^4.0.0",
+    "editor.md": "^1.5.0"
+  }
+}

@@ -1,0 +1,71 @@
+
+<%- include('../shares/header') %>
+
+<style>
+    .content-left .blog img {
+        display: block;
+        margin: 0 auto;
+        width: 400px;
+    }
+</style>
+
+<body>
+<!-- 顶部导航  start -->
+<%- include('../shares/navbar') %>
+<!-- 顶部导航  end -->
+<div class="clearfix"></div>
+<!-- 内容区域  start -->
+<section class="container">
+    <!-- left start -->
+    <div class="content-left col-md-8">
+        <h1><%= article.title %></h1>
+        <div class="detail-info">
+            <div class="pull-left m-r-10">
+                <a href="http://xiaohigh.com/blog?cate_id=1"><span class="label label-warning">分类:<%= article.category %></span></a>
+            </div>
+            <div class="pull-left m-r-10">
+                <span class="label label-success"><%= article.addtime %></span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <hr>
+        <div class="blog  markdown-body">
+            <p><%- article.content %></p>
+        </div>
+        <hr>
+    </div>
+    <!-- left end -->
+    <!-- right start -->
+    <div class="content-right col-md-4">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">分类</h3>
+            </div>
+            <div class="panel-body">
+                <% for(let i = 0; i < categories.length; i++) { %>
+                <span class="label label-primary"><%= categories[i].name %></span>
+                <% } %>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">最新文章</h3>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <% for(let i = 0; i < newArticles.length; i++) { %>
+                    <li><a href="/<%= newArticles[i]._id %>.html"><%= newArticles[i].title %></a></li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- right end -->
+    <div class="clearfix"></div>
+</section>
+<!-- 内容区域  start -->
+
+<div class="clearfix" style="clear:both"></div>
+<!-- 底部  start -->
+<%- include('../shares/header') %>

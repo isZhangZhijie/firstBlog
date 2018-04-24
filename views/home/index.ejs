@@ -1,0 +1,93 @@
+<%- include('shares/header') %>
+<style>
+    .year {
+    }
+</style>
+<body>
+<!-- 顶部导航  start -->
+<%- include('shares/navbar') %>
+<!-- 顶部导航  end -->
+<div class="clearfix"></div>
+<!-- 内容区域  start -->
+<section class="container">
+    <!-- left start -->
+    <div class="content-left col-md-8">
+        <!-- 文章列表部分 star -->
+        <div class="content">
+            <p class="text-muted" style="line-height: 2">最新文章</p>
+            <% for(let i = 0; i < newArticles.length; i++) { %>
+            <div class="item">
+                <!-- 图片 start  -->
+                <div class="col-md-4">
+                    <img class="img-responsive" src="<%= newArticles[i].pic %>" alt="">
+                </div>
+                <!-- 图片 end  -->
+                <!-- 标题和摘要 start -->
+                <div class="col-md-8">
+                    <h3 style="padding:0px;margin:5px 0px">
+                        <a href="/<%= newArticles[i]._id %>.html"><%= newArticles[i].title %></a>
+                    </h3>
+                    <p style="padding-top: 10px;"><%= newArticles[i].intro %></p>
+                </div>
+                <!-- 标题和摘要 end -->
+            </div>
+            <% } %>
+            <% if(newArticles.length <= 0) { %>
+            <div class="item text-center">
+                暂无数据
+            </div>
+            <% } %>
+        </div>
+        <div class="clearfix"></div>
+        <!-- 文章列表部分 star -->
+
+    </div>
+    <!-- left end -->
+    <!-- right start -->
+    <div class="content-right col-md-4">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">分类</h3>
+            </div>
+            <div class="panel-body">
+                <% for(let i = 0; i < categories.length; i++) { %>
+                <span class="label label-primary"><%= categories[i].name %></span>
+                <% } %>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">历史今日</h3>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <% for(let i = 0; i < histories.length; i++) { %>
+                    <li class="list-group-item">
+                        <div class="media-left">
+                            <span class="year label label-danger"><%= histories[i].year %></span>
+                        </div>
+                        <% if(histories[i].picUrl) { %>
+                        <div class="media-left">
+                            <a href="<%= histories[i].link %>">
+                                <img class="media-object" width="100" src="<%= histories[i].picUrl %>" alt="">
+                            </a>
+                        </div>
+                        <% } %>
+                        <div class="media-body">
+                            <h4 class="media-heading"><a href="<%= histories[i].link %>"><%= histories[i].title %></a></h4>
+                        </div>
+                    </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- right end -->
+    <div class="clearfix"></div>
+</section>
+<!-- 内容区域  start -->
+
+<div class="clearfix" style="clear:both"></div>
+<!-- 底部  start -->
+<%- include('shares/footer') %>

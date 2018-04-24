@@ -1,0 +1,117 @@
+
+<%- include('../shares/header') %>
+
+<body>
+<!-- 顶部导航  start -->
+<%- include('../shares/navbar') %>
+<!-- 顶部导航  end -->
+<div class="clearfix"></div>
+<!-- 内容区域  start -->
+<section class="container">
+    <!-- left start -->
+    <div class="content-left col-md-8">
+        <!-- 文章列表部分 star -->
+        <div class="content">
+            <% for(let i = 0; i < articles.length; i++) { %>
+            <div class="item">
+                <!-- 图片 start  -->
+                <% if(articles[i].pic) { %>
+                <div class="col-md-4">
+                    <img class="img-responsive" src="<%= articles[i].pic %>" alt="">
+                </div>
+                <% } %>
+                <!-- 图片 end  -->
+                <!-- 标题和摘要 start -->
+                <div class="col-md-8">
+                    <h3 style="padding:0px;margin:5px 0px">
+                        <a href="/<%= articles[i]._id %>.html"><%= articles[i].title %></a>
+                    </h3>
+                    <p style="padding-top: 10px;"><%= articles[i].intro %></p>
+                </div>
+                <!-- 标题和摘要 end -->
+            </div>
+            <% } %>
+            <% if(articles.length <= 0) { %>
+            <div class="item text-center">
+                暂无数据
+            </div>
+            <% } %>
+        </div>
+        <div class="clearfix"></div>
+        <!-- 文章列表部分 star -->
+        <!-- 分页 start -->
+        <div id="pages" class="pull-left hidden-xs">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+
+                    <!-- 上一页 start -->
+                    <% if(page <= 1) { %>
+                    <li class="disabled">
+                        <a href="javascript:;">&laquo;</a>
+                    </li>
+                    <% } else { %>
+                    <li>
+                        <a href="/articles?page=<%= page - 1 %>">&laquo;</a>
+                    </li>
+                    <% } %>
+                    <!-- 上一页 end -->
+
+                    <% for(let i = 1; i <= pages; i++){ %>
+                    <% if(page == i) { %>
+                    <li class="active"><a href="javascript:;"><%= i %></a></li>
+                    <% } else { %>
+                    <li class=""><a href="/articles?page=<%= i %>"><%= i %></a></li>
+                    <% } %>
+                    <% } %>
+
+                    <!-- 下一页 start -->
+                    <% if(page >= pages) { %>
+                    <li class="disabled">
+                        <a href="javascript:;">&raquo;</a>
+                    </li>
+                    <% } else { %>
+                    <li>
+                        <a href="/articles?page=<%= page + 1 %>">&raquo;</a>
+                    </li>
+                    <% } %>
+                    <!-- 下一页 end -->
+                </ul>
+            </nav>
+        </div>
+        <!-- 分页 end -->
+    </div>
+    <!-- left end -->
+    <!-- right start -->
+    <div class="content-right col-md-4">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">分类</h3>
+            </div>
+            <div class="panel-body">
+                <% for(let i = 0; i < categories.length; i++) { %>
+                <span class="label label-primary"><%= categories[i].name %></span>
+                <% } %>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">最新文章</h3>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <% for(let i = 0; i < newArticles.length; i++) { %>
+                    <li><a href="/<%= newArticles[i]._id %>.html"><%= newArticles[i].title %></a></li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- right end -->
+    <div class="clearfix"></div>
+</section>
+<!-- 内容区域  start -->
+
+<div class="clearfix" style="clear:both"></div>
+<!-- 底部  start -->
+<%- include('../shares/header') %>

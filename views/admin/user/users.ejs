@@ -1,0 +1,173 @@
+<%- include('../shares/header') %>
+
+<link href="/administrator/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+<link href="/administrator/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <%- include('../shares/navbar') %>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">用户列表</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        用户列表
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="table" width="100%"
+                                           class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline"
+                                           id="table" role="grid"
+                                           aria-describedby="dataTables-example_info" style="width: 100%;">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="" tabindex="0" aria-controls="dataTables-example"
+                                                rowspan="1" colspan="1" aria-sort="ascending"
+                                                aria-label="Rendering engine: activate to sort column descending"
+                                                style="width: 152px;">ID
+                                            </th>
+                                            <th class="" tabindex="0" aria-controls="dataTables-example"
+                                                rowspan="1" colspan="1"
+                                                aria-label="Browser: activate to sort column ascending"
+                                                style="width: 187px;">昵称
+                                            </th>
+                                            <th class="" tabindex="0" aria-controls="dataTables-example"
+                                                rowspan="1" colspan="1"
+                                                aria-label="Platform(s): activate to sort column ascending"
+                                                style="width: 169px;">邮箱
+                                            </th>
+                                            <th class="" tabindex="0" aria-controls="dataTables-example"
+                                                rowspan="1" colspan="1"
+                                                aria-label="Engine version: activate to sort column ascending"
+                                                style="width: 132px;">头像
+                                            </th>
+                                            <th class="" tabindex="0" aria-controls="dataTables-example"
+                                                rowspan="1" colspan="1"
+                                                aria-label="CSS grade: activate to sort column ascending"
+                                                style="width: 98px;">添加时间
+                                            </th>
+                                            <th class="" tabindex="0" aria-controls="dataTables-example"
+                                                rowspan="1" colspan="1"
+                                                aria-label="CSS grade: activate to sort column ascending"
+                                                style="width: 98px;">操作
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <% for(let i = 0; i < users.length; i++) { %>
+                                        <tr class="gradeA odd" role="row">
+                                            <td class="sorting_1"><%= users[i]._id %></td>
+                                            <td class="nickname"><%= users[i].nickname %></td>
+                                            <td><%= users[i].email %></td>
+                                            <td><img src="<%= users[i].image %>" width="50" alt=""></td>
+                                            <td><%= users[i].addtime %></td>
+                                            <td class="text-center">
+                                                <a class="btn btn-xs btn-info"
+                                                   href="/user/<%= users[i]._id %>/edit">编辑</a>
+                                                <a class="btn btn-xs btn-danger delete-user" data-id="<%= users[i]._id %>"
+                                                   href="javascript:;">删除</a>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+<script>
+    // 双击昵称更改昵称
+    $('.nickname').dblclick(function () {
+        var td = $(this)
+        // 获取当前用户昵称
+        var nickname = td.text();
+        // 插入输入框，显示原昵称
+        td.html('<input type="text" name="nickname" autofocus  value="' + nickname + '">');
+        // 选中输入框内容，添加失焦事件
+        td.children().select().blur(function () {
+            // 获取新昵称
+            // var newNickname = $(this).val();
+            // var _id = $(this).parent().siblings('td:first-child').text()
+            // $.get('/user/update', {id: _id, nickname: newNickname}, function (data) {
+            //     if (data.code == 0) {
+            //         td.html(newNickname);
+            //         alert(data.msg);
+            //     }
+            // })
+
+            let that = $(this)
+            let newNickname = that.val().trim();
+            if(!newNickname.length == 0) {
+                let reg = /^[a-zA-Z0-9\u4E00-\u9FA5_-]{4,16}$/;
+                if(reg.test(newNickname)) {
+                    var _id = $(this).parent().siblings('td:first-child').text()
+                    $.get('/user/update', {id: _id, nickname: newNickname}, function (data) {
+                        if (data.code == 0) {
+                            td.html(newNickname);
+                            alert(data.msg);
+                        }
+                    })
+                } else {
+                    alert('请输入符合规则的昵称')
+                }
+            } else {
+                alert('请输入新昵称');
+            }
+        });
+    });
+
+
+    // 点击删除后确定是否删除
+    $('.delete-user').click(function() {
+        var id = $(this).attr('data-id')
+        if(confirm('确定要删除此用户吗？')) {
+            location.href = '/user/' + id + '/delete'
+        }
+    })
+
+    // 表格
+    $(document).ready( function () {
+        $('#table').DataTable({
+            "language": {
+                "url": "/administrator/language/Chinese.json"
+            },
+            "lengthMenu": [[10, 15, 20, -1], [10, 15, 20, "全部"]]
+        });
+    });
+</script>
+</body>
+
+<%- include('../shares/footer') %>
+
+<script src="/administrator/vendor/datatables/js/jquery.dataTables.min.js"></script>
+
+<script src="/administrator/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+
+<script src="/administrator/vendor/datatables-responsive/dataTables.responsive.js"></script>
